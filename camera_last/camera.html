@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<title>Camera</title>
+
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+attribute vec4 vPosition;
+
+uniform mat4 modelViewMatrix;
+uniform mat4 projectionMatrix;
+
+void
+main()
+{
+	gl_Position = projectionMatrix * modelViewMatrix * vPosition;
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+precision mediump float;
+
+uniform vec4 objectColor;
+
+void
+main()
+{
+    gl_FragColor = objectColor;
+}
+</script>
+
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+<script type="text/javascript" src="camera.js"></script>
+<script type="text/javascript" src="grid.js"></script>
+<script type="text/javascript" src="model.js"></script>
+</head>   
+
+<body>
+<canvas id="gl-canvas" width="900" height="600">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+</br>
+<button onclick="endDrawing_button()">Done Drawing</button>
+<button onclick="resetShape_button()">Reset Shape</button>
+<button onclick="deleteShape_button()">Delete Shape</button>
+<button onclick="unselectShape_button()">Unselect Shape</button>
+<table width="900" border="1px">
+  <tr>
+    <td align="center">
+       SCALE
+    </td>
+    <td align="center">
+       ROTATION
+    </td>
+    <td align="center">
+       SHEAR
+    </td>
+    <td align="center">
+       COLOR
+    </td>
+
+  </tr>
+  <tr>
+    <td align="center">
+        *Hold z (while shape is active) </br>
+         &amp drag corners
+    </td>
+    <td align="center">
+        <form> X<input onchange="rotateShapeX_slider()" id="xAng_slider" type="range" name="points" value="0" min="0" max="360"></form>
+        <form> Y<input onchange="rotateShapeY_slider()" id="yAng_slider" type="range" name="points" value="0" min="0" max="360"></form>
+        <form> Z<input onchange="rotateShapeZ_slider()" id="zAng_slider" type="range" name="points" value="0" min="0" max="360"></form>
+    </td> 
+    <td align="center">
+<form name="radioForm" onchange="radioButtons()">
+  <input id="0" type="radio" name="Q" value="0" checked>Shear X
+  <input id="1" type="radio" name="Q" value="1">Shear Y
+  <input id="2" type="radio" name="Q" value="2">Shear Z
+</form>
+<form><input onchange="shearFunc()" id="shear_slider" type="range" name="points" value="0" min="-80" max="80"></form>
+    </td>
+    <td align="center">
+        <select id="shape_color" onchange="shapeColor()">
+          <option value="red">red</option>
+          <option value="green">green</option>
+          <option value="blue">blue</option>
+          <option value="yellow">yellow</option>
+        </select>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
